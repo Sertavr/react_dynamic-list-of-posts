@@ -8,11 +8,10 @@ type Props = {
   name: string;
   email: string;
   commentText: string;
-  invalidFiels: Fields[];
+  invalidFields: Fields[];
   errorMessage: string;
   loading: string;
   handleChangeName: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  // addComment: (name: string, email: string, body: string) => void;
   handleChangeEmail: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeTextarea: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -24,7 +23,7 @@ export const NewCommentForm: React.FC<Props> = ({
   name,
   email,
   commentText,
-  invalidFiels,
+  invalidFields,
   handleChangeName,
   handleChangeEmail,
   handleChangeTextarea,
@@ -45,7 +44,7 @@ export const NewCommentForm: React.FC<Props> = ({
             id="comment-author-name"
             placeholder="Name Surname"
             className={
-              invalidFiels.includes('name') ? 'input is-danger' : 'input'
+              invalidFields.includes('name') ? 'input is-danger' : 'input'
             }
             value={name}
             handleChange={handleChangeName}
@@ -55,10 +54,10 @@ export const NewCommentForm: React.FC<Props> = ({
             <i className="fas fa-user" />
           </span>
 
-          {invalidFiels.includes('name') && <ErrorFieldForm />}
+          {invalidFields.includes('name') && <ErrorFieldForm />}
         </div>
 
-        {invalidFiels.includes('name') && (
+        {invalidFields.includes('name') && (
           <p className="help is-danger" data-cy="ErrorMessage">
             Name is required
           </p>
@@ -77,7 +76,7 @@ export const NewCommentForm: React.FC<Props> = ({
             id="comment-author-email"
             placeholder="email@test.com"
             className={
-              invalidFiels.includes('email') ? 'input is-danger' : 'input'
+              invalidFields.includes('email') ? 'input is-danger' : 'input'
             }
             value={email}
             handleChange={handleChangeEmail}
@@ -87,10 +86,10 @@ export const NewCommentForm: React.FC<Props> = ({
             <i className="fas fa-envelope" />
           </span>
 
-          {invalidFiels.includes('email') && <ErrorFieldForm />}
+          {invalidFields.includes('email') && <ErrorFieldForm />}
         </div>
 
-        {invalidFiels.includes('email') && (
+        {invalidFields.includes('email') && (
           <p className="help is-danger" data-cy="ErrorMessage">
             Email is required
           </p>
@@ -108,7 +107,7 @@ export const NewCommentForm: React.FC<Props> = ({
             name="body"
             placeholder="Type comment here"
             className={
-              invalidFiels.includes('textarea')
+              invalidFields.includes('textarea')
                 ? 'textarea is-danger'
                 : 'textarea'
             }
@@ -117,7 +116,7 @@ export const NewCommentForm: React.FC<Props> = ({
           />
         </div>
 
-        {invalidFiels.includes('textarea') && (
+        {invalidFields.includes('textarea') && (
           <p className="help is-danger" data-cy="ErrorMessage">
             Enter some text
           </p>

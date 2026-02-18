@@ -45,7 +45,7 @@ export const App = () => {
 
         setUsers(preperUsers);
       })
-      .catch(() => setErrorMessage('posts'));
+      .catch(() => setErrorMessage('users'));
   }, []);
 
   useEffect(() => {
@@ -121,18 +121,15 @@ export const App = () => {
   };
 
   const delComment = (id: number) => {
-    const removeComment = comments.find(comm => comm.id === id);
+    const copyComment = [...comments];
 
     setComments(prevComments =>
       [...prevComments].filter(comment => comment.id !== id),
     );
 
     deleteComment(id).catch(() => {
-      if (removeComment) {
-        setComments(prevComm => [...prevComm, removeComment]);
-      }
-
-      alert('Something went wrong!');
+      setComments(copyComment);
+      setErrorMessage('delete');
     });
   };
 
@@ -157,7 +154,7 @@ export const App = () => {
                   <p data-cy="NoSelectedUser">No user selected</p>
                 )}
                 {loading === 'posts' && <Loader />}
-                {errorMessage === 'posts' && (
+                {(errorMessage === 'posts' || errorMessage === 'users') && (
                   <Notification
                     content="Something went wrong!"
                     classType="is-danger"

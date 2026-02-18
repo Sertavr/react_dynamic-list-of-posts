@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { User } from '../types/User';
 import { UserLink } from './User/UserLink';
 import classNames from 'classnames';
+import { useOnClickOutside } from '../customHook/useOnClickOutside';
 
 type Props = {
   selectedUser: number | null;
@@ -16,21 +17,21 @@ export const UserSelector: React.FC<Props> = ({
 }) => {
   const [isActive, setIsActive] = useState(false);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (!(event.target as HTMLElement).closest('.control-close')) {
-        setIsActive(false);
-      }
-    };
+  const refButton = useRef<HTMLButtonElement>(null);
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      refButton.current &&
+      !refButton.current.contains(event.target as Node)
+    ) {
+      setIsActive(false);
+    }
+  };
 
-    document.addEventListener('click', handleClickOutside);
-
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
+  useOnClickOutside(refButton, handleClickOutside);
 
   const handleUserClick = (id: number) => {
     handleSelectUser(id);
-    setIsActive(!isActive);
+    setIsActive(prev => !prev);
   };
 
   return (
@@ -40,11 +41,12 @@ export const UserSelector: React.FC<Props> = ({
     >
       <div className="dropdown-trigger">
         <button
+          ref={refButton}
           type="button"
           className="button control-close"
           aria-haspopup="true"
           aria-controls="dropdown-menu"
-          onClick={() => setIsActive(!isActive)}
+          onClick={() => setIsActive(prev => !prev)}
         >
           <span>
             {users.find(user => user.id === selectedUser)?.name ||
