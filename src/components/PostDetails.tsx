@@ -49,7 +49,7 @@ export const PostDetails: React.FC<Props> = ({
     }
   };
 
-  const handlChangeTextarea = (
+  const handleChangeTextarea = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setCommentText(event.target.value);
@@ -169,7 +169,7 @@ export const PostDetails: React.FC<Props> = ({
             errorMessage={errorMessage}
             handleChangeName={handleChangeName}
             handleChangeEmail={handleChangeEmail}
-            handlChangeTextarea={handlChangeTextarea}
+            handleChangeTextarea={handleChangeTextarea}
             handleSubmit={handleSubmit}
             invalidFiels={invalidFiels}
             name={name}

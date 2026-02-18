@@ -14,7 +14,7 @@ type Props = {
   handleChangeName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   // addComment: (name: string, email: string, body: string) => void;
   handleChangeEmail: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handlChangeTextarea: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleChangeTextarea: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   clearFormFields: () => void;
 };
@@ -27,7 +27,7 @@ export const NewCommentForm: React.FC<Props> = ({
   invalidFiels,
   handleChangeName,
   handleChangeEmail,
-  handlChangeTextarea,
+  handleChangeTextarea,
   handleSubmit,
   clearFormFields,
 }) => {
@@ -72,7 +72,7 @@ export const NewCommentForm: React.FC<Props> = ({
 
         <div className="control has-icons-left has-icons-right">
           <Input
-            type="text"
+            type="email"
             name="email"
             id="comment-author-email"
             placeholder="email@test.com"
@@ -113,7 +113,7 @@ export const NewCommentForm: React.FC<Props> = ({
                 : 'textarea'
             }
             value={commentText}
-            onChange={handlChangeTextarea}
+            onChange={handleChangeTextarea}
           />
         </div>
 

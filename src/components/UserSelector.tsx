@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User } from '../types/User';
 import { UserLink } from './User/UserLink';
 import classNames from 'classnames';
@@ -15,8 +15,6 @@ export const UserSelector: React.FC<Props> = ({
   selectedUser,
 }) => {
   const [isActive, setIsActive] = useState(false);
-
-  const refButton = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -42,7 +40,6 @@ export const UserSelector: React.FC<Props> = ({
     >
       <div className="dropdown-trigger">
         <button
-          ref={refButton}
           type="button"
           className="button control-close"
           aria-haspopup="true"

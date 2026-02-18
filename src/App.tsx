@@ -11,9 +11,9 @@ import { Loader } from './components/Loader';
 import { createContext, useEffect, useState } from 'react';
 import { User } from './types/User';
 import {
-  deleteComent,
+  deleteComment,
   getPosts,
-  getSelectedPostComents,
+  getSelectedPostComments,
   getUsers,
   postComment,
 } from './api/data';
@@ -31,7 +31,7 @@ export const App = () => {
   const [selectedUser, setSelectedUser] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState('');
-  const [isOpenAddComment, setIsOpwnAddComment] = useState(false);
+  const [isOpenAddComment, setIsOpenAddComment] = useState(false);
 
   useEffect(() => {
     getUsers()
@@ -105,13 +105,13 @@ export const App = () => {
   const handleOpenPost = (postId: number) => {
     const findPost = posts.find(post => post.id === postId);
 
-    setIsOpwnAddComment(false);
+    setIsOpenAddComment(false);
     if (findPost?.id !== openPost?.id && findPost) {
       setOpenPost(findPost);
       setLoading('comments');
       setErrorMessage('');
 
-      getSelectedPostComents(postId)
+      getSelectedPostComments(postId)
         .then(com => setComments(com))
         .catch(() => setErrorMessage('comments'))
         .finally(() => setLoading(''));
@@ -121,14 +121,22 @@ export const App = () => {
   };
 
   const delComment = (id: number) => {
+    const removeComment = comments.find(comm => comm.id === id);
+
     setComments(prevComments =>
       [...prevComments].filter(comment => comment.id !== id),
     );
 
-    deleteComent(id);
+    deleteComment(id).catch(() => {
+      if (removeComment) {
+        setComments(prevComm => [...prevComm, removeComment]);
+      }
+
+      alert('Something went wrong!');
+    });
   };
 
-  const openAddCommentForm = () => setIsOpwnAddComment(true);
+  const openAddCommentForm = () => setIsOpenAddComment(true);
 
   return (
     <main className="section">
