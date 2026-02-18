@@ -16,6 +16,7 @@ type Props = {
   handleChangeEmail: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlChangeTextarea: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  clearFormFields: () => void;
 };
 
 export const NewCommentForm: React.FC<Props> = ({
@@ -28,70 +29,8 @@ export const NewCommentForm: React.FC<Props> = ({
   handleChangeEmail,
   handlChangeTextarea,
   handleSubmit,
+  clearFormFields,
 }) => {
-  // const [name, setName] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [commentText, setCommentText] = useState('');
-  // const [invalidFiels, setInvalidFields] = useState<Fields[]>([]);
-
-  // const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setName(event.target.value);
-  //   if (invalidFiels.includes('name')) {
-  //     setInvalidFields(prevFields =>
-  //       [...prevFields].filter(field => field !== 'name'),
-  //     );
-  //   }
-  // };
-
-  // console.log(email);
-
-  // const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEmail(event.target.value);
-  //   if (invalidFiels.includes('email')) {
-  //     setInvalidFields(prevFields =>
-  //       [...prevFields].filter(field => field !== 'email'),
-  //     );
-  //   }
-  // };
-
-  // const handlChangeTextarea = (
-  //   event: React.ChangeEvent<HTMLTextAreaElement>,
-  // ) => {
-  //   setCommentText(event.target.value);
-  //   if (invalidFiels.includes('textarea')) {
-  //     setInvalidFields(prevFields =>
-  //       [...prevFields].filter(field => field !== 'textarea'),
-  //     );
-  //   }
-  // };
-
-  // const validationFildsForm = () => {
-  //   if (!name.trim()) {
-  //     setInvalidFields(prevFields => [...prevFields, 'name']);
-  //   }
-
-  //   if (!email.trim()) {
-  //     setInvalidFields(prevFields => [...prevFields, 'email']);
-  //   }
-
-  //   if (!commentText.trim()) {
-  //     setInvalidFields(prevFields => [...prevFields, 'textarea']);
-  //   }
-  // };
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   setInvalidFields([]);
-  //   if (!name.trim() || !email.trim() || !commentText.trim()) {
-  //     validationFildsForm();
-
-  //     return;
-  //   }
-
-  //   addComment(name, email, commentText);
-  //   setCommentText('');
-  // };
-
   return (
     <form data-cy="NewCommentForm" onSubmit={handleSubmit}>
       <div className="field" data-cy="NameField">
@@ -199,7 +138,11 @@ export const NewCommentForm: React.FC<Props> = ({
 
         <div className="control">
           {/* eslint-disable-next-line react/button-has-type */}
-          <button type="reset" className="button is-link is-light">
+          <button
+            onClick={clearFormFields}
+            type="reset"
+            className="button is-link is-light"
+          >
             Clear
           </button>
         </div>

@@ -1,7 +1,7 @@
 import {
   URL_COMENTS,
-  URL_POSTS,
   URL_SELECTED_POST_COMENTS,
+  URL_SELECTED_USER_POSTS,
   URL_USERS,
 } from '../constants/constants';
 import { Comment, CommentData } from '../types/Comment';
@@ -11,7 +11,8 @@ import { client } from '../utils/fetchClient';
 
 export const getUsers = (): Promise<User[]> => client.get(URL_USERS);
 
-export const getPosts = (): Promise<Post[]> => client.get(URL_POSTS);
+export const getPosts = (id: number): Promise<Post[]> =>
+  client.get(`${URL_SELECTED_USER_POSTS}${id}`);
 
 export const getSelectedPostComents = (id: number): Promise<Comment[]> =>
   client.get(`${URL_SELECTED_POST_COMENTS}${id}`);

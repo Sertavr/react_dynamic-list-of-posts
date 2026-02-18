@@ -88,6 +88,13 @@ export const PostDetails: React.FC<Props> = ({
     setCommentText('');
   };
 
+  const clearFormFields = () => {
+    setName('');
+    setEmail('');
+    setCommentText('');
+    setInvalidFields([]);
+  };
+
   return (
     <div className="content" data-cy="PostDetails">
       <div className="content" data-cy="PostDetails">
@@ -100,14 +107,13 @@ export const PostDetails: React.FC<Props> = ({
         <div className="block">
           {loading === 'comments' && <Loader />}
 
-          {errorMessage === 'comments' ||
-            (errorMessage === 'addComment' && (
-              <div className="notification is-danger" data-cy="CommentsError">
-                Something went wrong
-              </div>
-            ))}
+          {(errorMessage === 'comments' || errorMessage === 'addComment') && (
+            <div className="notification is-danger" data-cy="CommentsError">
+              Something went wrong
+            </div>
+          )}
 
-          {comments.length === 0 && (
+          {!errorMessage && comments.length === 0 && !loading && (
             <p className="title is-4" data-cy="NoCommentsMessage">
               No comments yet
             </p>
@@ -126,7 +132,7 @@ export const PostDetails: React.FC<Props> = ({
                 data-cy="Comment"
               >
                 <div className="message-header">
-                  <a href={`mailto${comment.email}`} data-cy="CommentAuthor">
+                  <a href={`mailto:${comment.email}`} data-cy="CommentAuthor">
                     {comment.name}
                   </a>
                   <button
@@ -146,28 +152,7 @@ export const PostDetails: React.FC<Props> = ({
               </article>
             ))}
 
-          {/* <article className="message is-small" data-cy="Comment">
-            <div className="message-header">
-              <a href="mailto:misha@mate.academy" data-cy="CommentAuthor">
-                Misha Hrynko
-              </a>
-
-              <button
-                data-cy="CommentDelete"
-                type="button"
-                className="delete is-small"
-                aria-label="delete"
-              >
-                delete button
-              </button>
-            </div>
-
-            <div className="message-body" data-cy="CommentBody">
-              {'Multi\nline\ncomment'}
-            </div>
-          </article> */}
-
-          {!isOpenAddComment && (
+          {!isOpenAddComment && !errorMessage && !loading && (
             <button
               data-cy="WriteCommentButton"
               type="button"
@@ -191,6 +176,7 @@ export const PostDetails: React.FC<Props> = ({
             email={email}
             commentText={commentText}
             loading={loading}
+            clearFormFields={clearFormFields}
           />
         )}
       </div>

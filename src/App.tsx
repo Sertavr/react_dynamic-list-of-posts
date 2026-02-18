@@ -53,7 +53,13 @@ export const App = () => {
       return;
     }
 
-    const idTimeOut = setTimeout(() => setErrorMessage(''), 3000);
+    const idTimeOut = setTimeout(() => {
+      if (errorMessage === 'posts') {
+        setSelectedUser(null);
+      }
+
+      setErrorMessage('');
+    }, 3000);
 
     return () => clearTimeout(idTimeOut);
   }, [errorMessage]);
@@ -83,18 +89,16 @@ export const App = () => {
   };
 
   const handleSelectUser = (selectedUserId: number) => {
+    setOpenPost(null);
     setSelectedUser(selectedUserId);
     setErrorMessage('');
     setLoading('posts');
-    getPosts()
+    setPosts([]);
+    getPosts(selectedUserId)
       .then(data => {
-        const filteredPosts = data.filter(
-          post => post.userId === selectedUserId,
-        );
-
-        setPosts(filteredPosts);
+        setPosts(data);
       })
-      .catch(() => setErrorMessage('Something went wrong!'))
+      .catch(() => setErrorMessage('posts'))
       .finally(() => setLoading(''));
   };
 
@@ -144,9 +148,7 @@ export const App = () => {
                 {!selectedUser && (
                   <p data-cy="NoSelectedUser">No user selected</p>
                 )}
-
                 {loading === 'posts' && <Loader />}
-
                 {errorMessage === 'posts' && (
                   <Notification
                     content="Something went wrong!"
@@ -154,15 +156,17 @@ export const App = () => {
                     dataCy="PostsLoadingError"
                   />
                 )}
-
-                {selectedUser && posts.length === 0 && (
-                  <Notification
-                    content="No posts yet"
-                    classType="is-warning"
-                    dataCy="NoPostsYet"
-                  />
-                )}
-
+                {/* eslint-disable @typescript-eslint/indent */}
+                {!loading &&
+                  selectedUser &&
+                  posts.length === 0 &&
+                  !errorMessage && (
+                    <Notification
+                      content="No posts yet"
+                      classType="is-warning"
+                      dataCy="NoPostsYet"
+                    />
+                  )}
                 {selectedUser && posts.length > 0 && (
                   <OpenPostContext.Provider value={openPost}>
                     <PostsList posts={posts} handleOpenPost={handleOpenPost} />
@@ -183,16 +187,18 @@ export const App = () => {
             )}
           >
             <div className="tile is-child box is-success ">
-              <PostDetails
-                post={openPost}
-                loading={loading}
-                errorMessage={errorMessage}
-                comments={comments}
-                isOpenAddComment={isOpenAddComment}
-                openAddCommentForm={openAddCommentForm}
-                addComment={addComment}
-                delComment={delComment}
-              />
+              {openPost && (
+                <PostDetails
+                  post={openPost}
+                  loading={loading}
+                  errorMessage={errorMessage}
+                  comments={comments}
+                  isOpenAddComment={isOpenAddComment}
+                  openAddCommentForm={openAddCommentForm}
+                  addComment={addComment}
+                  delComment={delComment}
+                />
+              )}
             </div>
           </div>
         </div>
